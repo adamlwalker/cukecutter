@@ -1,4 +1,6 @@
-Cukecutter GEM
+Cukecutter
+
+Cucumber feature and step definition automation gem for Ruby
 
 Interactive:
 cukecutter = Cukecutter.new
