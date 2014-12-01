@@ -1,0 +1,93 @@
+require 'fileutils'
+
+class Cukecutter
+
+  def feature(feature, scenario)
+    @feature = feature
+    @scenario = scenario
+  end
+
+  def create_structure
+    if File.exists?("features") && File.directory?("features")
+      return
+    else
+   FileUtils.mkpath "features/step_definitions"
+   FileUtils.mkdir "features/support"
+  end
+ end
+
+  def create_bulk
+    # create features from list in features.md
+    file = File.new("features.md", "r")
+    while (line = file.gets)
+    line = line.chomp.strip.gsub(' ', '_')
+    FileUtils.touch "features/#{line}.feature"
+    FileUtils.touch "features/step_definitions/#{line}.steps.rb"
+    end
+    file.close
+  end
+
+  def create_feature
+    print "Feature name: "
+    @feature = gets.chomp
+    print "Scenario: "
+    @scenario = gets.chomp
+    puts "please enter steps:"
+    puts "Cucumber steps starts with 'Given, When, Then, And, But' keywords."
+  end
+
+    def write_feature
+    File.open("features/""#{@feature}.feature", "w") do |f|
+      f.write("Feature: #{@feature}\n")
+      f.write("\tScenario: #{@scenario}\n")
+    end
+   @steps.each do |steps|
+   File.open("features/""#{@feature}.feature", "a") do |f|
+     f.write("\t\t#{steps}")
+     end
+   end
+   FileUtils.touch "features/step_definitions/#{@feature}.steps.rb"
+  end
+
+
+  def steps
+    steps_keywords = %w(Given When Then And But)
+    nsteps = 0
+    @steps = []
+    while true
+      print "Add step [Y/n]: "
+      choice = gets
+      if choice.downcase.strip != "n"
+        puts "Step #{nsteps +1}:"
+        step = gets.capitalize
+        init_step_word = step.split(' ').first
+      if steps_keywords.include?(init_step_word)
+        @steps << step
+        nsteps = nsteps ++ 1
+      else
+        puts "Error: #{init_step_word} unsupported initial value"
+        puts "Use only #{steps_keywords} keywords"
+      end
+      elsif choice.downcase.strip == "n"
+        break
+      else
+        "please enter a valid choice."
+      end
+    end
+  end
+
+   
+  def cucumber_wrapper
+   cucumber = `cucumber features/#{@feature}.feature`
+   File.open("features/step_definitions/#{@feature}.steps.rb", 'w') do |parsed_steps|
+     parsed_steps.write cucumber.split("You can implement step definitions for undefined steps with these snippets:\n\n").last
+   end
+  end
+end
+
+cukecutter = Cukecutter.new
+cukecutter.create_structure
+cukecutter.create_feature
+cukecutter.steps
+cukecutter.write_feature
+cukecutter.cucumber_wrapper
