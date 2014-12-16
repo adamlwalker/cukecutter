@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'cukecutter'
-  s.version     = '0.0.1'
+  s.version     = '0.0.2'
   s.date        = '2014-12-01'
   s.summary     = "CukeCutter"
   s.description = "Cucumber feature and step definition tool"
@@ -10,4 +10,5 @@ Gem::Specification.new do |s|
   s.homepage    =
     'https://github.com/adamlwalker/cukecutter'
   s.license       = 'MIT'
+  s.add_dependency 'cucumber'
 end

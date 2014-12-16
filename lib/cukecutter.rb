@@ -1,5 +1,12 @@
 require 'fileutils'
 
+# @example include 'cukecutter' and run from command line
+#  			cukecutter = Cukecutter.new
+# 			cukecutter.create_structure
+# 			cukecutter.create_feature
+# 			cukecutter.steps
+# 			cukecutter.write_feature
+#  			cukecutter.cucumber_wrapper
 class Cukecutter
 
   def feature(feature, scenario)
@@ -7,17 +14,26 @@ class Cukecutter
     @scenario = scenario
   end
 
+ # Creates the following folders
+  # => features/
+  # => features/step_definitions
+  # => features/support
+  # And the file
+  # => features/support/env.rb
   def create_structure
     if File.exists?("features") && File.directory?("features")
       return
     else
    FileUtils.mkpath "features/step_definitions"
    FileUtils.mkdir "features/support"
+    FileUtils.touch"features/support/env.rb"
   end
+ 
+
  end
 
+  # create features from list in features.md
   def create_bulk
-    # create features from list in features.md
     file = File.new("features.md", "r")
     while (line = file.gets)
     line = line.chomp.strip.gsub(' ', '_')
@@ -36,6 +52,7 @@ class Cukecutter
     puts "Cucumber steps starts with 'Given, When, Then, And, But' keywords."
   end
 
+# Creates .feature and .steps.rb files
     def write_feature
     File.open("features/""#{@feature}.feature", "w") do |f|
       f.write("Feature: #{@feature}\n")
@@ -48,8 +65,9 @@ class Cukecutter
    end
    FileUtils.touch "features/step_definitions/#{@feature}.steps.rb"
   end
+ 
 
-
+ # Console based walkthrough for feature and step creation
   def steps
     steps_keywords = %w(Given When Then And But)
     nsteps = 0
@@ -76,7 +94,8 @@ class Cukecutter
     end
   end
 
-   
+
+   # runs cucumber and generates contents of .step_definitions from cucumber output
   def cucumber_wrapper
    cucumber = `cucumber features/#{@feature}.feature`
    File.open("features/step_definitions/#{@feature}.steps.rb", 'w') do |parsed_steps|
@@ -84,10 +103,3 @@ class Cukecutter
    end
   end
 end
-
-# cukecutter = Cukecutter.new
-# cukecutter.create_structure
-# cukecutter.create_feature
-# cukecutter.steps
-# cukecutter.write_feature
-# cukecutter.cucumber_wrapper
