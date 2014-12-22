@@ -112,10 +112,3 @@ class Cukecutter
    end
   end
 end
-
-# cukecutter = Cukecutter.new
-# cukecutter.create_structure
-# cukecutter.create_feature
-# cukecutter.steps
-# cukecutter.write_feature
-# cukecutter.cucumber_wrapper
