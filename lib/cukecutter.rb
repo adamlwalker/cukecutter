@@ -7,19 +7,22 @@ require 'fileutils'
 # 			cukecutter.steps
 # 			cukecutter.write_feature
 #  			cukecutter.cucumber_wrapper
+
 class Cukecutter
 
   def feature(feature, scenario)
     @feature = feature
     @scenario = scenario
+    @tags = tags
+    @description = description
   end
 
  # Creates the following folders
-  # => features/
-  # => features/step_definitions
-  # => features/support
+  #  features/
+  #  features/step_definitions
+  #  features/support
   # And the file
-  # => features/support/env.rb
+  #  features/support/env.rb
   def create_structure
     if File.exists?("features") && File.directory?("features")
       return
@@ -46,6 +49,10 @@ class Cukecutter
   def create_feature
     print "Feature name: "
     @feature = gets.chomp
+    print "Feature description: "
+    @description = gets.chomp
+    print "Tags seperated by spaces (ex: @api):"
+    @tags = gets.chomp
     print "Scenario: "
     @scenario = gets.chomp
     puts "please enter steps:"
@@ -54,16 +61,18 @@ class Cukecutter
 
 # Creates .feature and .steps.rb files
     def write_feature
-    File.open("features/""#{@feature}.feature", "w") do |f|
+    File.open("features/""#{@feature.gsub(" ", "_")}.feature", "w") do |f|
+      f.write("#{@tags}\n")
       f.write("Feature: #{@feature}\n")
+      f.write("Description: #{@description}\n\n")
       f.write("\tScenario: #{@scenario}\n")
     end
    @steps.each do |steps|
-   File.open("features/""#{@feature}.feature", "a") do |f|
+   File.open("features/""#{@feature.gsub(" ", "_")}.feature", "a") do |f|
      f.write("\t\t#{steps}")
      end
    end
-   FileUtils.touch "features/step_definitions/#{@feature}.steps.rb"
+   FileUtils.touch "features/step_definitions/#{@feature.gsub(" ", "_")}.steps.rb"
   end
  
 
@@ -97,9 +106,16 @@ class Cukecutter
 
    # runs cucumber and generates contents of .step_definitions from cucumber output
   def cucumber_wrapper
-   cucumber = `cucumber features/#{@feature}.feature`
-   File.open("features/step_definitions/#{@feature}.steps.rb", 'w') do |parsed_steps|
+   cucumber = `cucumber features/#{@feature.gsub(" ", "_")}.feature`
+   File.open("features/step_definitions/#{@feature.gsub(" ", "_")}.steps.rb", 'w') do |parsed_steps|
      parsed_steps.write cucumber.split("You can implement step definitions for undefined steps with these snippets:\n\n").last
    end
   end
 end
+
+# cukecutter = Cukecutter.new
+# cukecutter.create_structure
+# cukecutter.create_feature
+# cukecutter.steps
+# cukecutter.write_feature
+# cukecutter.cucumber_wrapper
