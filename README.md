@@ -8,7 +8,6 @@ cukecutter = Cukecutter.new<br>
 cukecutter.create_structure<br>
 cukecutter.create_feature<br>
 cukecutter.steps<br>
-cukecutter.write_feature<br>
 cukecutter.cucumber_wrapper<br>
 <br>
 Bulk tools (requires features.md file)<br>

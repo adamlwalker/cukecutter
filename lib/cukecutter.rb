@@ -5,7 +5,6 @@ require 'fileutils'
 # 			cukecutter.create_structure
 # 			cukecutter.create_feature
 # 			cukecutter.steps
-# 			cukecutter.write_feature
 #  			cukecutter.cucumber_wrapper
 
 class Cukecutter
@@ -29,6 +28,7 @@ class Cukecutter
     else
    FileUtils.mkpath "features/step_definitions"
    FileUtils.mkdir "features/support"
+   FileUtils.mkdir "features/screenshots"
     FileUtils.touch"features/support/env.rb"
   end
  
@@ -101,6 +101,12 @@ class Cukecutter
         "please enter a valid choice."
       end
     end
+    write_feature
+  end
+
+  def more_steps
+    # placeholder for more steps and scenarios
+    # adds additional scenario and steps to file created in write feature
   end
 
 
