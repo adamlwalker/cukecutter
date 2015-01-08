@@ -14,3 +14,8 @@ Bulk tools (requires features.md file)<br>
 cukecutter = Cukecutter.new<br>
 cukecutter.create_structure<br>
 cukecutter.create_bulk<br>
+<br>
+TO DO<br>
+Create GUI<br>
+Add multi scenario features
+
