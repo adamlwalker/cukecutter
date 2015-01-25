@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'cukecutter'
-  s.version     = '0.0.6'
+  s.version     = '0.0.7'
   s.date        = '2014-12-27'
   s.summary     = "CukeCutter cucumber generator"
   s.description = "Cucumber feature and step definition tool automated generator. CLI"
