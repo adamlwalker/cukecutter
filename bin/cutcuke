@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require './cukecutter.rb'
+require 'cukecutter'
 
 cukecutter = Cukecutter.new
 cukecutter.create_structure
