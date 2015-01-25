@@ -11,5 +11,5 @@ Gem::Specification.new do |s|
   s.homepage	= 'https://github.com/adamlwalker/cukecutter'
   s.license       = 'MIT'
   s.add_dependency 'cucumber', '>= 0.7.5'
-  s.gem.executables   = ["cutcuke"]
+  s.executables   = ["cutcuke"]
 end
